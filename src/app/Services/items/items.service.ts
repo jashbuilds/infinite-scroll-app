@@ -7,11 +7,12 @@ import { delay } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class ItemsService {
-  constructor(private httpclient: HttpClient) {}
+  constructor(private httpclient: HttpClient) { }
 
-  getAS(page: number, limit: number): Observable<any> {
+  // Fetch products with pagination and simulated delay
+  getAS(offset: number, limit: number): Observable<any> {
     return this.httpclient
-      .get(`https://api.escuelajs.co/api/v1/products?offset=0&limit=${limit}&page=${page}`)
-      .pipe(delay(0));
+      .get(`https://api.escuelajs.co/api/v1/products?offset=${offset}&limit=${limit}`)
+      .pipe(delay(500)); // Delay to show loading spinner
   }
 }

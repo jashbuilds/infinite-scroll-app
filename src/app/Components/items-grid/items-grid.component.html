@@ -1,23 +1,34 @@
-<div class="container">
-    <div class="row my-4 d-flex justify-content-center align-items-center">
-        @for(item of items; track $index) {
+<div class="container py-5">
+    <div class="row g-4 justify-content-center align-items-stretch">
+        <!-- Render product cards -->
+        @for(item of items(); track $index) {
         <div class="col-sm-4 col-md-3 col-12 g-4">
-            <div class="card h-100">
-                <h5 class="card-header">Item-{{ $index + 1 }}</h5>
+            <div class="card h-100 border-0 shadow-sm bg-light">
+                <p class="card-header fs-5 fw-bold text-primary bg-transparent border-0 p-3 bg-primary">
+                    <span>Item-{{ $index + 1 }}</span>
+                </p>
                 <div class="card-body">
-                    <h5 class="card-title">{{ item.title }}</h5>
-                    <p class="card-text overflow-ellipsis">{{ item.description
+                    <h5 class="card-title fw-semibold w-75">{{ item.title }}</h5>
+                    <p class="card-text overflow-ellipsis text-muted">{{ item.description
                         }}</p>
-                    <p>{{ item.price | currency }}</p>
+                </div>
+                <div class="card-footer bg-transparent border-0">
+                    <p class="text-end fw-bold text-muted">{{ item.price | currency }}</p>
                 </div>
             </div>
-
         </div>
         }
 
-        <div #sentinel class="sentinel">
-            @if(loading) {
-            <div class="loading-spinner">Loading more items...</div>
+        <!-- Invisible trigger div for IntersectionObserver -->
+        <div #sentinel class="d-flex justify-content-center align-items-center">
+            <!-- Loading indicator -->
+            @if(loading()) {
+            <div class="fw-bold border border-0 rounded px-4 py-2 shadow-sm rounded-pill text-primary">
+                <div class="spinner-border text-primary spinner-border-sm me-2" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <span>Loading Items...</span>
+            </div>
             }
         </div>
     </div>
