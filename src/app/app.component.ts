@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { ItemsGridComponent } from "./Components/items-grid/items-grid.component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [ItemsGridComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

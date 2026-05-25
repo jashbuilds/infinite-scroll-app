@@ -1,0 +1,24 @@
+<div class="container">
+    <div class="row my-4 d-flex justify-content-center align-items-center">
+        @for(item of items; track $index) {
+        <div class="col-sm-4 col-md-3 col-12 g-4">
+            <div class="card h-100">
+                <h5 class="card-header">Item-{{ $index + 1 }}</h5>
+                <div class="card-body">
+                    <h5 class="card-title">{{ item.title }}</h5>
+                    <p class="card-text overflow-ellipsis">{{ item.description
+                        }}</p>
+                    <p>{{ item.price | currency }}</p>
+                </div>
+            </div>
+
+        </div>
+        }
+
+        <div #sentinel class="sentinel">
+            @if(loading) {
+            <div class="loading-spinner">Loading more items...</div>
+            }
+        </div>
+    </div>
+</div>
