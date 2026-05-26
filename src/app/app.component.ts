@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { ItemsGridComponent } from "./Components/items-grid/items-grid.component";
+import { NavbarComponent } from "./Components/navbar/navbar.component";
 
 @Component({
   selector: 'app-root',
-  imports: [ItemsGridComponent],
+  imports: [ItemsGridComponent, NavbarComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

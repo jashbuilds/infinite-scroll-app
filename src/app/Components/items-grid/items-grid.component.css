@@ -1,13 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-
-body {
-    font-family: "Montserrat", sans-serif;
-}
-
 .overflow-ellipsis {
     display: -webkit-box;
     -webkit-line-clamp: 5;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.card-text {
+    height: 120px;
+    transition: all 0.5s ease-in-out;
+}
+
+.card-text:hover {
+    -webkit-line-clamp: unset;
+    height: 240px;
 }

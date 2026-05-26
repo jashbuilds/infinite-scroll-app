@@ -24,10 +24,12 @@ export class ItemsGridComponent implements AfterViewInit {
   private ngZone = inject(NgZone);
   private observer!: IntersectionObserver;
 
+  // Set up Intersection Observer after the view initializes
   ngAfterViewInit() {
     this.setupIntersectionObserver();
   }
 
+  // Set up Intersection Observer to load more items when the sentinel is in view
   private setupIntersectionObserver() {
     const options = {
       root: null,
@@ -37,7 +39,6 @@ export class ItemsGridComponent implements AfterViewInit {
 
     this.observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        // Read signals by invoking them: ()
         if (entry.isIntersecting && !this.loading() && this.hasMore()) {
           this.ngZone.run(() => this.loadMoreItems());
         }
@@ -50,6 +51,7 @@ export class ItemsGridComponent implements AfterViewInit {
     }
   }
 
+  // Load more items when the sentinel is intersecting
   private loadMoreItems() {
     this.loading.set(true);
     const offset = this.currentPage() * this.limit();
