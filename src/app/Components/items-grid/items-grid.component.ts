@@ -1,6 +1,8 @@
-import { Component, AfterViewInit, ElementRef, inject, NgZone, signal, viewChild } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, inject, NgZone, signal, viewChild, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ItemsService } from '../../Services/items/items.service';
+import { Item } from '../../Models/items.model';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-items-grid',
@@ -9,12 +11,14 @@ import { ItemsService } from '../../Services/items/items.service';
   templateUrl: './items-grid.component.html',
   styleUrls: ['./items-grid.component.css']
 })
-export class ItemsGridComponent implements AfterViewInit {
+export class ItemsGridComponent implements AfterViewInit, OnDestroy {
   // Signal-based view query
   sentinel = viewChild<ElementRef>('sentinel');
 
+  private destroy$ = new Subject<void>()
+
   // Signal-based reactive state
-  items = signal<any[]>([]);
+  items = signal<Item[]>([]);
   loading = signal(false);
   currentPage = signal(0);
   limit = signal(10);
@@ -56,7 +60,7 @@ export class ItemsGridComponent implements AfterViewInit {
     this.loading.set(true);
     const offset = this.currentPage() * this.limit();
 
-    this.itemsService.getAS(offset, this.limit()).subscribe((data: any[]) => {
+    this.itemsService.getItems(offset, this.limit()).pipe(takeUntil(this.destroy$)).subscribe((data: Item[]) => {
       // Update items by spreading the previous state
       this.items.update(prev => [...prev, ...data]);
       this.currentPage.update(p => p + 1);
@@ -66,5 +70,15 @@ export class ItemsGridComponent implements AfterViewInit {
         this.hasMore.set(false);
       }
     });
+  }
+
+  // Destroy Observer
+  ngOnDestroy(): void {
+    this.destroy$.next()
+    this.destroy$.complete()
+
+    if(this.observer) {
+      this.observer.disconnect()
+    }
   }
 }
